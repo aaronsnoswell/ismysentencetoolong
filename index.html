@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Is My Sentence Too Long?</title>
+
+    <style>
+
+        div#main {
+            width: 600pt;
+            margin: 100px auto 0px auto;
+            padding: 0px;
+        }
+
+        textarea#input {
+            width: 500pt;
+            height: 150px;
+            margin-left: 50pt;
+
+            font-size: 16pt;
+        }
+
+        span#face {
+            vertical-align: top;
+            font-size: 20pt;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div id="main">
+        <textarea id="input" placeholder="Type a sentence..." ></textarea>
+        <span id="face" ></span>
+    </div>
+</body>
+
+    <script type="text/javascript" >
+        document.onload = function() {
+            
+            // Identify elements
+            var inpt = document.getElementById("input");
+            var face = document.getElementById("face");
+
+            /** Simple word count - measures number of white-spaces */
+            function countWords(str) {
+                if(str == "") return 0;
+                return str.match(/\S+/g).length;
+            }
+
+            // Mapping from word counts to emojii
+            var face_map = new Map([
+                [0, ""],
+                [5, "👍"],
+                [15, "🙂"],
+                [25, "😃"],
+                [30, "😐"],
+                [35, "🙁"],
+                [40, "😕"],
+                [45, "🤨"],
+                [48, "🤔"],
+                [50, "😬"],
+                [53, "✋"],
+                [56, "😮"],
+                [59, "😦"],
+                [62, "😨"],
+                [65, "😱"],
+                [68, "😭"],
+                [70, "👿"],
+                [75, "💩"],
+                [80, "☠"],
+                [90, "👻"],
+            ]);
+
+            var onchangefn = function() {
+                var wc = countWords(inpt.value);
+                for(var m of face_map) {
+                    if(wc <= m[0]) {
+                        face.innerText = m[1];
+                        break;
+                    }
+                }
+            }
+            setInterval(onchangefn, 20);
+        }();
+    </script>
+
+</html>
